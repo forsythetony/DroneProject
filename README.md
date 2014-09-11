@@ -1,15 +1,13 @@
-DroneProject
+Drone Project
 ============
 
-Group drone project for IT 4001
-
-#### Goal
+## Goal
 
 To develop a navigation system for the Parrot AR Drone that would enable it to easily traverse tight, indoor spaces. 
 
-### About
+## About
 
-This application is being developed as a group project for IT 4001.
+This application is being developed as a group project for IT 4001. Development began ~9/11/2014
 
 #### Team Members
 
