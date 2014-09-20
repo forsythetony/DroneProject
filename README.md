@@ -16,3 +16,8 @@ This application is being developed as a group project for IT 4001. Development 
 ###### Nick Kosse
 
 ###### ?
+
+
+## Other Stuff
+
+I just wanted to test some slack integration stuff. 
