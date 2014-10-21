@@ -1,0 +1,10 @@
+{
+  "name": "DroneProject",
+  "version": "1.0.0",
+  "description" : "A project for the Parrot AR drone that uses ultrasound sensor to help navigate tight indoor spaces.",
+  "dependencies": {
+	  "moment" : "2.8.3",
+	  "serialport" : "1.4.6",
+	  "plotly" : "0.2.13"
+  }
+}
