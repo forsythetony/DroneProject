@@ -18,16 +18,46 @@ var initData = [{
     y : [],
     stream : {
         token :  streamToken ,
-        maxpoints : 10000
+        maxpoints : 25
     },
-    name : "Testing",
-    type : "scatter"
+    name : "newgraph",
+    type : "scatter",
+    mode : "lines+markers",
+    marker : {
+	 color: "rgba(31, 119, 180, 0.96)"   
+    },
+    line : {
+		color:"rgba(31, 119, 180, 0.31)"
+    }
 }];
+var layout = {
+    "filename": "streamSimpleSensor"
+  , "fileopt": "overwrite"
+  , "layout": {
+		"title": "streaming mock sensor data",
+		"xaxis" : {
+		title: 'Time'
+		, showgrid : false
+		, zeroline : false
+		, showline: false
+		, ticks : ""
+		},
+		"yaxis" : {
+		title: 'Inches'
+		, showgrid : true
+		, zeroline : false
+		, showline: false
+		, ticks : ""
+		}
+  }
+  , "world_readable": true
+}
+var initGraphOptions = {fileopt : "extend", filename : "somethingnew"};
 
-var initGraphOptions = {fileopt : "extend", filename : "nodenodenode"};
+var counter = 0;
+var allValues = [];
 
-
-plotly.plot(initData, initGraphOptions, function (err, msg) {
+plotly.plot(initData, layout, function (err, msg) {
   
   if (err){
 	return console.log(err);  
@@ -46,12 +76,22 @@ plotly.plot(initData, initGraphOptions, function (err, msg) {
 	  {
 		  var JSONdata = JSON.parse( data );
 		  var value = JSONdata["sensor1"];
-		  value = String( value );
 		  
-		  var writeData = { x : moment().format('h:mm:ss.SS'), y: value };
+
+		  //allValues.push( value );
+  		  var writeData = { x : moment().format('h:mm:ss.SS'), y: String(convertToFeet( value )) };
 		  console.log( writeData );
 		  stream1.write( JSON.stringify( writeData ) + "\n");
+		 
 	  }
 	  
   });
 });
+
+function convertToFeet( someValue ) {
+	
+	var inFeet = someValue / 12.0;
+	
+	return inFeet;
+	
+}
