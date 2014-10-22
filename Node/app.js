@@ -20,7 +20,7 @@ var initData = [{
         token :  streamToken ,
         maxpoints : 25
     },
-    name : "newgraph",
+    name : "Distance",
     type : "scatter",
     mode : "lines+markers",
     marker : {
@@ -34,7 +34,7 @@ var layout = {
     "filename": "streamSimpleSensor"
   , "fileopt": "overwrite"
   , "layout": {
-		"title": "streaming mock sensor data",
+		"title": "Ultrasound Sensor Reading",
 		"xaxis" : {
 		title: 'Time'
 		, showgrid : false
