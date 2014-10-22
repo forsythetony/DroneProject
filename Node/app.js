@@ -79,7 +79,7 @@ plotly.plot(initData, layout, function (err, msg) {
 		  
 
 		  //allValues.push( value );
-  		  var writeData = { x : moment().format('h:mm:ss.SS'), y: String(convertToFeet( value )) };
+  		  var writeData = { x : moment().format('mm:ss.SS'), y: String(convertToFeet( value )) };
 		  console.log( writeData );
 		  stream1.write( JSON.stringify( writeData ) + "\n");
 		 

@@ -22,10 +22,6 @@ void loop()
   counter += 1;
   
   printValue( roughConversion( val ) );
-  
-
-  
-
 }
 
 float convertToInches( int value ) {
@@ -74,7 +70,7 @@ void printValue( float value ) {
 float roughConversion( int value ) {
   
   float deskToWallIn = 70.0;
-  float deskToWallV = 42.0;
+  float deskToWallV  = 42.0;
   
   return ( (float)value * (deskToWallIn / deskToWallV ));
 
