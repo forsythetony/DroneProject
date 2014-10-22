@@ -1,18 +1,29 @@
-//  Personal Definitions
+//  Definitions
 
-#define INCHESCONV  2
-#define FEETCONV    3
-#define CMCONV      4
-#define RAWCONV     5
+  //  Pin Values
+  #define SENSORPIN1  0
+  #define SENSORPIN2  12345
 
+  //  Conversion Defines
+  #define INCHESCONV  2
+  #define FEETCONV    3
+  #define CMCONV      4
+  #define RAWCONV     5
+  
+  // JSON Package Defines
+  #define SENSORLABEL1  "sensor1"
+  #define SENSORLABEL2  "sensor2"
+
+  //  Time delays
+  #define DELAYMAIN  100
+  
+  
 //  Library Includes
 #include <JsonGenerator.h>
 using namespace ArduinoJson::Generator;
 
-int ultraPin = 0;
-int val = 0;
-int delayVal = 200; // Delay for 200 milliseconds
-int counter = 0;
+//  Global Variables
+int val  = 0;
 
 void setup() {
 
@@ -22,42 +33,24 @@ void setup() {
 
 void loop()
 {
-  val = analogRead( ultraPin );
-  delay( delayVal );
  
-  counter += 1;
-  
+  val = analogRead( SENSORPIN1 );
+  delay( DELAYMAIN );
+   
   printValue( convertValue( val , RAWCONV ));
   
 }
 
-void intPrint( int value ) {
-
-  JsonObject<2> object;
-  
-  object["sensor1"] = value;
-  
-  Serial.print(object);
-  Serial.print("\n");
-
-}
 void printValue( float value ) {
 
   JsonObject<2> object;
   
-  object["sensor1"] = value;
+  object[SENSORLABEL1] = value;
   
   Serial.print(object);
   Serial.print("\n");
-  
-  if( counter ==  99 )
-  {
-    Serial.print("STOP");
-    Serial.print("\n");
-  }
-  
-
 }
+
 float convertValue( int value , int conversionType ) {
   
   float fValue  =  (float)value;
