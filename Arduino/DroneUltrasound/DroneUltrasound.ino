@@ -1,5 +1,12 @@
-#include <JsonGenerator.h>
+//  Personal Definitions
 
+#define INCHESCONV  2
+#define FEETCONV    3
+#define CMCONV      4
+#define RAWCONV     5
+
+//  Library Includes
+#include <JsonGenerator.h>
 using namespace ArduinoJson::Generator;
 
 int ultraPin = 0;
@@ -16,29 +23,14 @@ void setup() {
 void loop()
 {
   val = analogRead( ultraPin );
-  float inches = convertToInches( val );
   delay( delayVal );
  
   counter += 1;
   
-  printValue( roughConversion( val ) );
+  printValue( convertValue( val , RAWCONV ));
+  
 }
 
-float convertToInches( int value ) {
-
-  float scaling = 5.0 / 1024.0;
-
-  float measuredVoltage = (float)value;
-
-  return (measuredVoltage/scaling);
-
-}
-
-int getVoltage( int value ) {
- 
- return map( value , 0, 1023, 0, 5);
- 
-}
 void intPrint( int value ) {
 
   JsonObject<2> object;
@@ -66,13 +58,41 @@ void printValue( float value ) {
   
 
 }
-
-float roughConversion( int value ) {
+float convertValue( int value , int conversionType ) {
   
-  float deskToWallIn = 70.0;
-  float deskToWallV  = 42.0;
+  float fValue  =  (float)value;
   
-  return ( (float)value * (deskToWallIn / deskToWallV ));
-
+  float conversionFactor = 0.0;
+  
+  switch( conversionType ) {
+    
+    case INCHESCONV: {
+      float scaling = 5.0 / 1024.0;
+      return fValue/scaling; 
+    }
+      break;
+      
+    case FEETCONV: {
+      conversionFactor = 10.0;
+      return fValue * conversionFactor;
+    }
+      break;
+      
+    case CMCONV: {
+      conversionFactor = 1.0;
+      return fValue * conversionFactor;
+    }
+      break;
+      
+    case RAWCONV: {
+      return fValue;
+    }
+      break;
+      
+    default: {
+      return 1.0;
+    }
+      break;
+  }
 }
   
