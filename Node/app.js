@@ -1,8 +1,9 @@
 var com = require("serialport");
 var moment = require('moment');
+var fs = require('fs');
 
-var plotlyUsername = process.env.PLOTLY_USERNAME;
-var plotlyAPIKey = process.env.PLOTLY_APIKEY;
+var plotlyUsername = "forsythetony";
+var plotlyAPIKey = "lhgpw8cx5h";
 
 var plotly = require('plotly')( plotlyUsername, plotlyAPIKey );
 
@@ -11,8 +12,10 @@ var serialPort = new com.SerialPort("/dev/tty.usbmodem1411", {
     parser: com.parsers.readline('\n')
 });
 
+
+var fileName = './tmp/hallwayTest_hallwayWithT-B.csv';
   
-var streamToken = "1l0e05rpv1";
+var streamToken = "0lkrmjtfic";
 var initData = [{
     x : [],
     y : [],
@@ -57,6 +60,7 @@ var initGraphOptions = {fileopt : "extend", filename : "somethingnew"};
 var counter = 0;
 var allValues = [];
 
+/*
 plotly.plot(initData, layout, function (err, msg) {
   
   if (err){
@@ -66,9 +70,7 @@ plotly.plot(initData, layout, function (err, msg) {
   console.log(msg);
 
   var stream1 = plotly.stream( streamToken , function (err, res) {
-    console.log(err, res);
     
-  });
 
   serialPort.on('data', function(data) {
 	  
@@ -88,10 +90,45 @@ plotly.plot(initData, layout, function (err, msg) {
   });
 });
 
+*/
+fs.writeFile( fileName , "time, distance(ft)\n", function(err) {
+	if(err){
+		console.log( err );
+	} else {
+		console.log( "File was saved!" );
+	}
+});
+
+ serialPort.on('data', function(data) {
+	  
+	  if( data != "STOP" )
+	  {
+		  var JSONdata = JSON.parse( data );
+		  var value = JSONdata["sensor1"];
+		  
+
+		  //allValues.push( value );
+  		  var writeData = { "time" : moment().format('hh:mm:ss.SS'), "distance" : String(convertToFeet( value )) };
+		  console.log( writeData );
+		  
+		 var fileAppendData = '"' + writeData["time"] + '" , ' + writeData["distance"] + '\n';
+		 
+		 fs.appendFile( fileName, fileAppendData , function(err) {
+			 
+		 });
+		 
+		  //stream1.write( JSON.stringify( writeData ) + "\n");
+		 
+	  }
+	  
+  });
+  
+
+  
 function convertToFeet( someValue ) {
 	
 	var inFeet = someValue / 12.0;
 	
-	return inFeet;
+	return inFeet.toFixed(2);
 	
 }
